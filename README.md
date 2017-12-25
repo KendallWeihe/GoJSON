@@ -1,0 +1,2 @@
+# GoJSON
+Custom JSON package
