@@ -6,6 +6,7 @@ Custom JSON package
     - `input.go`
     - `manipulate.go`
     - `output.go`
+    - `json.go`
   - `playground/`
     - `example.json`
     - `play.go`
@@ -16,9 +17,9 @@ I didn't like [this](https://golang.org/pkg/encoding/json/), I came from Python 
 
 In other words, I wanted to read a JSON file, manipulate data, and then write to an output file.
 
-##### Current caveat's: every value is stores as a string & performance optimization is not currently taken into account
+##### Current caveats: every value is stores as a string & performance optimization is not currently taken into account
 
-There are three types of JSON "keys":
+There are three types of JSON key-value stores:
   1. key-value
   2. key-list
   3. key-JSON (nested)
@@ -37,13 +38,19 @@ There are two types of JSON list elements:
 
 # Use:
 
+### JSON type
+  - initialize a JSON instance
+    ```[golang]
+      json := create
+    ```
+
 ### Read:
   - ...
 
 ### Manipulate:
   - ...
 
-## Write:
+### Write:
   - ...
 
 # TODO:
