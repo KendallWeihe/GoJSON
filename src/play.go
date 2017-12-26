@@ -9,7 +9,7 @@ import (
 func main() {
 
   // READ EXAMPLE FILE ------------------------------------
-  config_file := "example.json"
+  config_file := "../test/example.json"
   json := new(JSON) // TODO: use create() to create JSON
   read(config_file, json)
 
@@ -34,7 +34,7 @@ func main() {
   fmt.Println(reflect.TypeOf(key_json))
 
   // WRITE EXAMPLE TO NEW FILE
-  output_file := "example_output.json"
+  output_file := "../test/example_output.json"
   write(*json, output_file)
 
   // TODO: "CRUD-like" actions for JSON values

@@ -186,14 +186,6 @@ func find_json_recursive(custom_json *JSON, keys []string, key_index int) (*stri
   return empty_str, empty_json, empty_json_list
 }
 
-/*
-  INPUTS:
-    - key in the form
-      - value is from an object inside a list: "path.to.key.with.[list].support"
-      - value is an actual a list: "path.to.key.with.[list]"
-  OUTPUTS:
-    - value
-*/
 func find(custom_json *JSON, key string) (*string, *JSON, *JSONList) {
   keys := strings.Split(key, ".")
   value, json, list := find_json_recursive(custom_json, keys, 0)

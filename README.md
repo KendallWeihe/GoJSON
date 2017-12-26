@@ -1,17 +1,6 @@
 # GoJSON
 Custom JSON package
 
-# Files:
-  - `package/`
-    - `input.go`
-    - `manipulate.go`
-    - `output.go`
-    - `json.go`
-  - `playground/`
-    - `example.json`
-    - `play.go`
-  - `README.md`
-
 # The idea:
 I didn't like [this](https://golang.org/pkg/encoding/json/), I came from Python and I primarily wanted to manipulate JSON data like from [here](https://docs.python.org/2/library/json.html), so I built `*this`.
 
@@ -33,26 +22,19 @@ There are two types of JSON list elements:
   - copy files from `package/` to your project
   - include files in your build
 
-# Test build:
-  - ``
+# Current functionality:
+  - read from a JSON file
+  - find elements within the JSON file
+  - write to a JSON file
 
-# Use:
-
-### JSON type
-  - initialize a JSON instance
-    ```[golang]
-      json := create
-    ```
-
-### Read:
-  - ...
-
-### Manipulate:
-  - ...
-
-### Write:
-  - ...
+# Test:
+  - `cd src`
+  - `go build`
+  - `./src`
 
 # TODO:
+  - restructure repo for GoLang GitHub tree structure standards
+  - add "CRUD-like" functionality for JSON elements
+  - support types other than strings wihtin the JSON object
+  - `find()` should support embedded list elements
   - build automation
-  - type support (other than strings)
