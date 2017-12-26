@@ -1,17 +1,17 @@
 {
-  "key_value_1": "value_1",
-  "key_value_2": "value_2",
-  "key_list": [
+  "key_1": "value_1",
+  "key_2": "value_2",
+  "list": [
     "value_1",
     "value_2",
     {
       "json_element": "value_3"
     }
   ],
-  "key_json": {
-    "key_value_1": "value_1",
-    "key_value_2": "value_2",
-    "key_list": [
+  "nested_json": {
+    "nested_key_1": "value_1",
+    "nested_key_2": "value_2",
+    "nested_list": [
       "value_1",
       "value_2",
       {

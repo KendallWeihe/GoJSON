@@ -14,24 +14,24 @@ func main() {
   read(config_file, json)
 
   // FIND KEY-VALUE IN JSON
-  key_value, _, _ := find(json, "key_value_1")
-  fmt.Println(reflect.TypeOf(key_value))
+  value, _, _ := find(json, "key_1")
+  fmt.Println(reflect.TypeOf(value))
 
   // FIND EMBEDDED KEY-VALUE IN JSON
-  embedded_key_value, _, _ := find(json, "key_json.key_value_1")
-  fmt.Println(reflect.TypeOf(embedded_key_value))
+  nested_value, _, _ := find(json, "nested_json.nested_key_1")
+  fmt.Println(reflect.TypeOf(nested_value))
 
   // FIND KEY-LIST IN JSON
-  _, _, key_list := find(json, "key_list")
-  fmt.Println(reflect.TypeOf(key_list))
+  _, _, list := find(json, "list")
+  fmt.Println(reflect.TypeOf(list))
 
   // FIND EMBEDDED KEY-LIST IN JSON
-  _, _, embedded_key_list := find(json, "key_json.key_list")
-  fmt.Println(reflect.TypeOf(embedded_key_list))
+  _, _, nested_list := find(json, "nested_json.nested_list")
+  fmt.Println(reflect.TypeOf(nested_list))
 
   // FIND KEY-JSON IN JSON
-  _, key_json, _ := find(json, "key_json")
-  fmt.Println(reflect.TypeOf(key_json))
+  _, nested_json, _ := find(json, "nested_json")
+  fmt.Println(reflect.TypeOf(nested_json))
 
   // WRITE EXAMPLE TO NEW FILE
   output_file := "../test/example_output.json"
