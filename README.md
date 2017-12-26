@@ -2,9 +2,9 @@
 Custom JSON package
 
 # The idea:
-I didn't like [this](https://golang.org/pkg/encoding/json/), I came from Python and I primarily wanted to handle JSON data in an easy-to-use way, like from [here](https://docs.python.org/2/library/json.html), so I built `*this`.
+Wasn't a fan of [this](https://golang.org/pkg/encoding/json/), I came from Python and I primarily wanted to handle JSON data in an easy-to-use way, like from [here](https://docs.python.org/2/library/json.html), so I built `*this` (plus, this was part of my "learning Go" project).
 
-In other words, I wanted to do any of the following...
+That is to say, with a simple set of function calls, I wanted to do any of the following...
   - read from a JSON file
   - create a JSON object from scratch
   - manipulate JSON elements
