@@ -34,6 +34,8 @@ There are two types of JSON list elements:
   - `./src`
 
 # TODO:
+  - add functionality
+  - add "How to use" to README
   - restructure repo for GoLang GitHub tree structure standards
   - add "CRUD-like" functionality for JSON elements (including creating an object from scratch)
   - support types other than strings within the JSON object
