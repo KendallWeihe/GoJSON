@@ -4,6 +4,7 @@ package main
 import (
     "fmt"
     "os"
+    "strings"
 )
 
 func get_indent(indent_count int) string {
@@ -32,7 +33,8 @@ func write_json_list(list JSONList, indent_count int) string {
 
   indent_count -= 1
   indent = get_indent(indent_count)
-  output_str += fmt.Sprintf("%s]", indent)
+  output_str = strings.TrimSuffix(output_str, ",\n")
+  output_str += fmt.Sprintf("\n%s]", indent)
   return output_str
 }
 
@@ -42,10 +44,6 @@ func write_json(custom_json JSON, indent_count int) string {
   output_str := fmt.Sprintf("%s{\n", indent)
   indent_count += 1
   indent = get_indent(indent_count)
-
-  // for k, v := range custom_json.key_value {
-  //   output_str += fmt.Sprintf("%s\"%s\": \"%s\",\n", indent, k, v)
-  // }
 
   for _, kv := range custom_json.key_value {
     output_str += fmt.Sprintf("%s\"%s\": \"%s\",\n", indent, kv.key, kv.value)
@@ -61,7 +59,8 @@ func write_json(custom_json JSON, indent_count int) string {
 
   indent_count -= 1
   indent = get_indent(indent_count) // TODO: remove the last comma
-  output_str += fmt.Sprintf("%s}", indent)
+  output_str = strings.TrimSuffix(output_str, ",\n")
+  output_str += fmt.Sprintf("\n%s}", indent)
   return output_str
 }
 
@@ -75,5 +74,4 @@ func write(custom_json JSON, path string) bool {
   check(err)
   fmt.Printf("Saved to file!\n")
   return true
-
 }
