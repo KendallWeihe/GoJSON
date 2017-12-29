@@ -6,7 +6,8 @@ import (
 )
 
 type KeyValue struct {
-  key_value map[string]string
+  key string
+  value string
 }
 
 type JSONList struct {
@@ -34,54 +35,33 @@ func check(e error) {
   }
 }
 
-func find_json_recursive(custom_json *JSON, keys []string, key_index int) (*string, *JSON, *JSONList) {
-
-  empty_str := new(string)
-  empty_json := new(JSON)
-  empty_json_list := new(JSONList)
-
-  // value found
-  key := keys[key_index]
-  if found := custom_json.exists(key); found {
-    value := custom_json.get(key)
-    return &value, empty_json, empty_json_list
-  }
-
-  // NOTE: HERE!
-  // nested json found
-  // if found := custom_json.exists()
-
-  if nested_json, ok := custom_json.json_nested[keys[key_index]]; ok {
-    // if the key requested is in fact a JSON object
-    if key_index == (len(keys)-1) {
-      return empty_str, nested_json, empty_json_list
+func find_recursive(keys []string, index int, json JSON) interface{} {
+  // check if the key even exists
+  key := keys[index]
+  if found, jtype, value := json.get(key); found {
+    if (jtype == "key-value") {
+      return value
+    } else if (jtype == "json") {
+      if (index == (len(keys)-1)) {
+        return value
+      } else {
+        return find_recursive(keys, index+1, value.(JSON))
+      }
+    } else if (jtype == "list") {
+      return value // NOTE: for now, if the key includes a list type, it should be the last key element
+    } else {
+      return nil
     }
-    // keep searching in nested JSON
-    return find_json_recursive(nested_json, keys, key_index+1)
+  } else {
+    return nil
   }
-
-  // json list
-  if json_list, ok := custom_json.json_list[keys[key_index]]; ok {
-    // if the key is the last key in the key_string
-    if key_index == (len(keys)-1) {
-      return empty_str, empty_json, json_list
-    }
-    // if there is more to find ... TODO this is shit?
-    json_objs := custom_json.json_list[keys[key_index]].json_objs
-    for _, json_obj := range json_objs {
-      return find_json_recursive(json_obj, keys, key_index+1)
-    }
-  }
-
-  return empty_str, empty_json, empty_json_list
 }
 
-func find(custom_json *JSON, key string) (*string, *JSON, *JSONList) {
+func find(key string, json JSON) interface{} {
   keys := strings.Split(key, ".")
-  value, json, list := find_json_recursive(custom_json, keys, 0)
-  return value, json, list
+  value := find_recursive(keys, 0, json)
+  return value
 }
-
 
 
 

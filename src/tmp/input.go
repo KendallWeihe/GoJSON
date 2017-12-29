@@ -6,14 +6,14 @@ import (
 )
 
 
-func read(path string, custom_json *JSON) bool {
+func read(path string, json *JSON) bool {
   raw, err := ioutil.ReadFile(path)
   check(err)
 
   start_index := 0
   end_index := len(raw)
   raw_str := string(raw)
-  construct_json(custom_json, &raw_str, start_index, end_index)
+  construct_json(json, &raw_str, start_index, end_index)
   return true
 }
 
@@ -98,7 +98,9 @@ func construct_json(custom_json *JSON, raw *string, start_index int, end_index i
       value := (*raw)[next_quote+1:value_closing_quote]
 
       new_key_value := new(KeyValue)
-      new_key_value.set(key, value)
+      // new_key_value.set(key, value)
+      new_key_value.key = key
+      new_key_value.value = value
       new_key_value.add(custom_json)
 
       index = value_closing_quote

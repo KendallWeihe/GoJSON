@@ -4,8 +4,10 @@ package main
 // -----------------------------------------------
 
 func (kv KeyValue) set(key string, value string) {
-  kv.key_value = make(map[string]string)
-  kv.key_value["key"] = "value"
+  // kv.key_value = make(map[string]string)
+  // kv.key_value[key] = value
+  kv.key = key
+  kv.value = value
 }
 
 // -----------------------------------------------
@@ -30,52 +32,26 @@ func (list JSONList) add(key string, parent_json *JSON) {
 
 // -----------------------------------------------
 
-func (json JSON) exists(key string) bool {
+func (json JSON) get(key string) (bool, string, interface{}) {
   for _, kv := range json.key_value {
-    if val, ok := kv.key_value[key]; ok {
-      return true
+    if (kv.key == key) {
+      return true, "key-value", kv.value
     }
   }
 
-  for _, json := range json.json {
-    if val, ok := json[key]; ok {
-      return true
+  for k, v := range json.json {
+    if (k == key) {
+      return true, "json", *v
     }
   }
 
-  for _, list := range json.list {
-    if val, ok := list.list[key]; ok {
-      return true
+  for k, v := range json.list {
+    if (k == key) {
+      return true, "list", *v
     }
   }
 
-  return false
-}
-
-// -----------------------------------------------
-
-func (kv KeyValue) get(parent_json *JSON) {
-
-}
-
-func (json JSON) get(key string) string {
-  for _, kv := range json.key_value {
-    if val, ok := kv.key_value[key]; ok {
-      return val
-    }
-  }
-  return ""
-}
-
-func (json_list JSONList) get(parent_json *JSON) {
-
-}
-
-func (json JSON) get(key string) interface, string {
-
-  // RET VALUE: 
-  //   - typeof
-  //   - value
+  return false, "", nil
 }
 
 // -----------------------------------------------

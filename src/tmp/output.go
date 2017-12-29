@@ -6,7 +6,6 @@ import (
     "os"
 )
 
-
 func get_indent(indent_count int) string {
   indent := ""
   i := 0
@@ -44,15 +43,19 @@ func write_json(custom_json JSON, indent_count int) string {
   indent_count += 1
   indent = get_indent(indent_count)
 
-  for k, v := range custom_json.key_value {
-    output_str += fmt.Sprintf("%s\"%s\": \"%s\",\n", indent, k, v)
+  // for k, v := range custom_json.key_value {
+  //   output_str += fmt.Sprintf("%s\"%s\": \"%s\",\n", indent, k, v)
+  // }
+
+  for _, kv := range custom_json.key_value {
+    output_str += fmt.Sprintf("%s\"%s\": \"%s\",\n", indent, kv.key, kv.value)
   }
 
-  for k, json := range custom_json.json_nested {
+  for k, json := range custom_json.json {
     output_str += fmt.Sprintf("%s\"%s\":\n%s,\n", indent, k, write_json(*json, indent_count+1))
   }
 
-  for k, list := range custom_json.json_list {
+  for k, list := range custom_json.list {
     output_str += fmt.Sprintf("%s\"%s\":\n%s,\n", indent, k, write_json_list(*list, indent_count+1))
   }
 
