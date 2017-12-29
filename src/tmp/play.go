@@ -15,15 +15,17 @@ func find_functions(json *JSON) {
   // FIND KEY-VALUE IN JSON
   value := find("key_1", json)
   fmt.Println(reflect.TypeOf(value))
-  // fmt.Printf(value.(string))
+  fmt.Println(value.(string))
 
   // FIND NESTED KEY-VALUE IN JSON
-  nested_value:= find("nested_json.nested_key_1", json)
+  nested_value := find("nested_json.nested_key_1", json)
   fmt.Println(reflect.TypeOf(nested_value))
+  fmt.Println(nested_value.(string))
 
   // FIND KEY-LIST IN JSON
   list := find("list", json)
   fmt.Println(reflect.TypeOf(list))
+  fmt.Println(list.(*JSONList))
 
   // FIND NESTED KEY-LIST IN JSON
   nested_list := find("nested_json.nested_list", json)
@@ -65,7 +67,7 @@ func main() {
   read(config_file, json)
 
   find_functions(json)
-  set_functions(json)
+  // set_functions(json)
 
   // WRITE EXAMPLE TO NEW FILE
   output_file := "../../test/example_output.json"

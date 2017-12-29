@@ -60,13 +60,15 @@ func construct_json_list(json_list *JSONList, raw *string, start_index int, end_
     if value_opening_quote < next_curly_bracket {
       value_closing_quote := find_specific_delim(raw, '"', value_opening_quote+1)
       value := (*raw)[value_opening_quote+1:value_closing_quote]
-      json_list.values = append(json_list.values, value)
+      // json_list.values = append(json_list.values, value)
+      json_list.add("value", value)
       index = value_closing_quote
     } else if next_curly_bracket < value_opening_quote {
       closing_bracket := find_closing_bracket(raw, '{', '}', next_curly_bracket)
       json_objs := new(JSON)
       construct_json(json_objs, raw, next_curly_bracket, closing_bracket)
-      json_list.json_objs = append(json_list.json_objs, json_objs)
+      // json_list.json_objs = append(json_list.json_objs, json_objs)
+      json_list.add("json", json_objs)
       index = closing_bracket
     } else {
       index += 1

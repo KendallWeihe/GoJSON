@@ -7,18 +7,12 @@ import (
     "reflect"
 )
 
-// type KeyValue struct {
-//   key string
-//   value string
-// }
-
 type JSONList struct {
   values []string // list of values
   json_objs []*JSON // list of json objects
 }
 
 type JSON struct {
-  // key_value []KeyValue // key/value map
   key_values map[string]string
   json map[string]*JSON // key/json object map
   list map[string]*JSONList // key/json list map
@@ -42,19 +36,21 @@ func find_recursive(keys []string, index int, json *JSON) interface{} {
   // check if the key even exists
   key := keys[index]
   value := json.get(key)
-  switch v := value.(type) {
-    case string:
-      return v
-    case JSON:
-      if (index == (len(keys)-1)) {
-        return value
-      } else {
-        return find_recursive(keys, index+1, &v)
-      }
-    case JSONList:
-      return &v
-    default:
-      return nil
+  vtype := fmt.Sprintf("%s", reflect.TypeOf(value))
+
+  if (vtype == "string") {
+    return value
+  } else if (vtype == "*main.JSON") {
+    if (index == (len(keys)-1)) {
+      return value
+    } else {
+      return find_recursive(keys, index+1, value.(*JSON))
+    }
+  } else if (vtype == "*main.JSONList") {
+    return value
+  } else {
+    fmt.Println("hmmmmm")
+    return nil
   }
 }
 
