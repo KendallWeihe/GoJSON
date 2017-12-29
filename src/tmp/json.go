@@ -3,12 +3,14 @@ package main
 
 import (
     "strings"
+    "fmt"
+    "reflect"
 )
 
-type KeyValue struct {
-  key string
-  value string
-}
+// type KeyValue struct {
+//   key string
+//   value string
+// }
 
 type JSONList struct {
   values []string // list of values
@@ -16,7 +18,8 @@ type JSONList struct {
 }
 
 type JSON struct {
-  key_value []KeyValue // key/value map
+  // key_value []KeyValue // key/value map
+  key_values map[string]string
   json map[string]*JSON // key/json object map
   list map[string]*JSONList // key/json list map
 }
@@ -35,33 +38,53 @@ func check(e error) {
   }
 }
 
-func find_recursive(keys []string, index int, json JSON) interface{} {
+func find_recursive(keys []string, index int, json *JSON) interface{} {
   // check if the key even exists
   key := keys[index]
-  if found, jtype, value := json.get(key); found {
-    if (jtype == "key-value") {
-      return value
-    } else if (jtype == "json") {
+  value := json.get(key)
+  switch v := value.(type) {
+    case string:
+      return v
+    case JSON:
       if (index == (len(keys)-1)) {
         return value
       } else {
-        return find_recursive(keys, index+1, value.(JSON))
+        return find_recursive(keys, index+1, &v)
       }
-    } else if (jtype == "list") {
-      return value // NOTE: for now, if the key includes a list type, it should be the last key element
-    } else {
+    case JSONList:
+      return &v
+    default:
       return nil
-    }
-  } else {
-    return nil
   }
 }
 
-func find(key string, json JSON) interface{} {
+func find(key string, json *JSON) interface{} {
   keys := strings.Split(key, ".")
   value := find_recursive(keys, 0, json)
   return value
 }
+
+func set_recursive(keys []string, index int, json *JSON, new_value interface{}) bool {
+  key := keys[index]
+  if found := json.set(key, new_value); found {
+    fmt.Println(reflect.TypeOf(found))
+  } else {
+    if ((len(keys)-1) == index) {
+      return false
+    } else {
+      return set_recursive(keys, index+1, json, new_value)
+    }
+  }
+
+  return false
+}
+
+func set(key string, json *JSON, value interface{}) bool {
+  keys := strings.Split(key, ".")
+  set := set_recursive(keys, 0, json, value)
+  return set
+}
+
 
 
 

@@ -97,24 +97,24 @@ func construct_json(custom_json *JSON, raw *string, start_index int, end_index i
       value_closing_quote := find_specific_delim(raw, '"', next_quote+1)
       value := (*raw)[next_quote+1:value_closing_quote]
 
-      new_key_value := new(KeyValue)
-      // new_key_value.set(key, value)
-      new_key_value.key = key
-      new_key_value.value = value
-      new_key_value.add(custom_json)
+      custom_json.add("key-value", key, value)
 
       index = value_closing_quote
     } else if next_curly_bracket < next_sq_bracket {
       closing_bracket := find_closing_bracket(raw, '{', '}', next_curly_bracket)
       nested_json := new(JSON)
       construct_json(nested_json, raw, next_curly_bracket, closing_bracket)
-      nested_json.add(key, custom_json)
+
+      custom_json.add("key-json", key, nested_json)
+
       index = closing_bracket
     } else if next_sq_bracket < next_curly_bracket {
       closing_bracket := find_closing_bracket(raw, '[', ']', next_sq_bracket)
       json_list := new(JSONList)
       construct_json_list(json_list, raw, next_sq_bracket, closing_bracket)
-      json_list.add(key, custom_json)
+
+      custom_json.add("key-list", key, json_list)
+
       index = closing_bracket
     } else {
       index += 1

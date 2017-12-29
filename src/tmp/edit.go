@@ -1,83 +1,144 @@
 
 package main
 
-// -----------------------------------------------
-
-func (kv KeyValue) set(key string, value string) {
-  // kv.key_value = make(map[string]string)
-  // kv.key_value[key] = value
-  kv.key = key
-  kv.value = value
-}
+import (
+  "fmt"
+  "reflect"
+)
 
 // -----------------------------------------------
+// ADD
+// -----------------------------------------------
 
-func (kv KeyValue) add(parent_json *JSON) {
-  parent_json.key_value = append(parent_json.key_value, kv)
-}
+func (json *JSON) add(jtype string, key string, value interface{}) {
+  // if (jtype == "key-value") {
+  //
+  // }
 
-func (json JSON) add(key string, parent_json *JSON) {
-  if (parent_json.json == nil) {
-      parent_json.json = make(map[string]*JSON)
+
+  fmt.Println("Value type: %s", reflect.TypeOf(value))
+  switch v := value.(type) {
+    case string:
+      if (json.key_values == nil) {
+        json.key_values = make(map[string]string)
+      }
+      json.key_values[key] = v
+      fmt.Println("Case string")
+      fmt.Println(v)
+    case JSON:
+      if (json.json == nil) {
+        json.json = make(map[string]*JSON)
+      }
+      json.json[key] = &v
+      fmt.Println("Case JSON")
+      fmt.Println(v)
+    case JSONList:
+      if (json.list == nil) {
+        json.list = make(map[string]*JSONList)
+      }
+      json.list[key] = &v
+      fmt.Println("Case JSONList")
+      fmt.Println(v)
+    default:
+      fmt.Println("hmm...")
+      fmt.Println(v)
   }
-  parent_json.json[key] = &json
 }
 
-func (list JSONList) add(key string, parent_json *JSON) {
-  if (parent_json.list == nil) {
-      parent_json.list = make(map[string]*JSONList)
+func (list *JSONList) add(value interface{}) {
+  switch v := value.(type) {
+    case string:
+      list.values = append(list.values, v)
+    case JSON:
+      list.json_objs = append(list.json_objs, &v)
   }
-  parent_json.list[key] = &list
 }
 
 // -----------------------------------------------
+// GET
+// -----------------------------------------------
 
-func (json JSON) get(key string) (bool, string, interface{}) {
-  for _, kv := range json.key_value {
-    if (kv.key == key) {
-      return true, "key-value", kv.value
+func (json *JSON) get(key string) interface{} {
+  for k, v := range json.key_values {
+    if (k == key) {
+      return v
     }
   }
 
   for k, v := range json.json {
     if (k == key) {
-      return true, "json", *v
+      return v
     }
   }
 
   for k, v := range json.list {
     if (k == key) {
-      return true, "list", *v
+      return v
     }
   }
 
-  return false, "", nil
+  return nil
 }
 
 // -----------------------------------------------
+// SET
+// -----------------------------------------------
 
-func (kv KeyValue) edit(existing_json *JSON) {
+func (json *JSON) set(key string, new_value interface{}) bool {
+  for k, v := range json.key_values {
+    if (k == key) {
+      fmt.Println(reflect.TypeOf(v))
+      fmt.Println(reflect.TypeOf(new_value))
+      // json.key_value[idx] = new_value.value
+      return true
+    }
+  }
 
+  for k, _ := range json.json {
+    if (k == key) {
+      return true
+    }
+  }
+
+  for k, _ := range json.list {
+    if (k == key) {
+      return true
+    }
+  }
+
+  return false
 }
 
-func (json JSON) edit(existing_json *JSON) {
-
-}
-
-func (json_list JSONList) edit(existing_json *JSON) {
+func (json_list JSONList) set(existing_json *JSON) {
 
 }
 
 // -----------------------------------------------
-
-func (kv KeyValue) delete(existing_json *JSON) {
-
-}
+// DELETE
+// -----------------------------------------------
 
 func (json JSON) delete(existing_json *JSON) {
 
 }
 
 func (json_list JSONList) delete(existing_json *JSON) {
+
+}
+
+
+
+
+
+
+
+// -----------------------------------------------
+// EDIT
+// -----------------------------------------------
+
+func (json JSON) edit(existing_json *JSON) {
+
+}
+
+func (json_list JSONList) edit(existing_json *JSON) {
 
 }

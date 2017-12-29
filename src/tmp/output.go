@@ -28,7 +28,7 @@ func write_json_list(list JSONList, indent_count int) string {
   }
 
   for _, json := range list.json_objs {
-    output_str += fmt.Sprintf("%s\n%s,\n", indent, write_json(*json, indent_count+1))
+    output_str += fmt.Sprintf("%s%s,\n", indent, write_json(*json, indent_count+1))
   }
 
   indent_count -= 1
@@ -45,8 +45,8 @@ func write_json(custom_json JSON, indent_count int) string {
   indent_count += 1
   indent = get_indent(indent_count)
 
-  for _, kv := range custom_json.key_value {
-    output_str += fmt.Sprintf("%s\"%s\": \"%s\",\n", indent, kv.key, kv.value)
+  for k, v := range custom_json.key_values {
+    output_str += fmt.Sprintf("%s\"%s\": \"%s\",\n", indent, k, v)
   }
 
   for k, json := range custom_json.json {
