@@ -22,7 +22,6 @@ type JSONCRUD interface {
   set()
   add()
   get()
-  edit()
   delete()
 }
 

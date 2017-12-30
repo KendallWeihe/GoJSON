@@ -67,6 +67,10 @@ func (json *JSON) get(key string) interface{} {
   return nil
 }
 
+func (list *JSONList) get() {
+
+}
+
 // -----------------------------------------------
 // SET
 // -----------------------------------------------
@@ -94,19 +98,17 @@ func (json *JSON) set(key string, new_value interface{}) bool {
   return false
 }
 
-func (json_list JSONList) set(existing_json *JSON) {
-
-}
+func (list *JSONList) set() { }
 
 // -----------------------------------------------
 // DELETE
 // -----------------------------------------------
 
-func (json JSON) delete(existing_json *JSON) {
+func (json *JSON) delete() {
 
 }
 
-func (json_list JSONList) delete(existing_json *JSON) {
+func (list *JSONList) delete() {
 
 }
 
@@ -116,14 +118,9 @@ func (json_list JSONList) delete(existing_json *JSON) {
 
 
 
-// -----------------------------------------------
-// EDIT
-// -----------------------------------------------
 
-func (json JSON) edit(existing_json *JSON) {
 
-}
 
-func (json_list JSONList) edit(existing_json *JSON) {
 
-}
+
+// ...
